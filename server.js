@@ -21,21 +21,11 @@ app.use((req, res, next) => {
 
 
 /* ------------------ DB CONNECTION ------------------ */
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "verifier"
-});
+const mongoose = require("mongoose");
 
-db.connect(err => {
-  if (err) {
-    console.error("❌ MySQL Connection Failed");
-    console.error(err.message);
-    process.exit(1);
-  }
-  console.log("✅ MySQL Connected Successfully");
-});
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB error:", err));
 
 /* ------------------ FILE UPLOAD (ADMIN) ------------------ */
 const upload = multer({
@@ -163,5 +153,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
+
 
 
